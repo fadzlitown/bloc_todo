@@ -4,9 +4,11 @@ import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 import '../widgets/TasksList.dart';
 import 'add_task_screen.dart';
+import 'drawer.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({Key? key}) : super(key: key);
+  static const id = 'tasks_screen';
 
   @override
   State<TasksScreen> createState() => _TasksScreenState();
@@ -31,6 +33,7 @@ class _TasksScreenState extends State<TasksScreen> {
         List<Task> listTasks = state.allTasks;
 
         return Scaffold(
+          drawer: MyDrawer(),
           appBar: AppBar(
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.

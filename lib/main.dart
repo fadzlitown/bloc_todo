@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_better_muslim/bloc/bloc_exports.dart';
+import 'package:flutter_better_muslim/service/app_route.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'screens/tasks_screen.dart';
@@ -10,12 +11,13 @@ Future<void> main() async {
       storageDirectory: await getApplicationDocumentsDirectory());
 
   // BlocOverrides.runZoned(() => runApp(const MyApp()));
-  HydratedBlocOverrides.runZoned(() => runApp(const MyApp()),
+  HydratedBlocOverrides.runZoned(() => runApp(MyApp(appRouter: AppRouter())),
       storage: hydratedStorage); //Hydrated storage will call native method
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final AppRouter appRouter;
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: const TasksScreen(),
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }
