@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_better_muslim/screens/RecycleBin.dart';
+import 'package:flutter_better_muslim/screens/tabs_screen.dart';
 import 'package:flutter_better_muslim/screens/tasks_screen.dart';
 
 import '../bloc/bloc_exports.dart';
@@ -32,7 +33,7 @@ class _MyDrawerState extends State<MyDrawer> {
               onTap: () =>
                   //todo Learning - pushNamed will stack the screen
                   //todo but pushReplacementNamed - will replace the existing screen (always 1 screen)
-                  Navigator.of(context).pushReplacementNamed(TasksScreen.id),
+                  Navigator.of(context).pushReplacementNamed(TabsScreen.id),
               child: ListTile(
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),

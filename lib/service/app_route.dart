@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_better_muslim/screens/RecycleBin.dart';
+import 'package:flutter_better_muslim/screens/tabs_screen.dart';
 import 'package:flutter_better_muslim/screens/tasks_screen.dart';
 
 class AppRouter {
@@ -7,8 +8,8 @@ class AppRouter {
     switch (routeSettings.name) {
       case RecyclerBin.id:
         return MaterialPageRoute(builder: (_) => const RecyclerBin());
-      case TasksScreen.id:
-        return MaterialPageRoute(builder: (_) => const TasksScreen());
+      case TabsScreen.id:
+        return MaterialPageRoute(builder: (_) => const TabsScreen());
       default:
         return null;
     }

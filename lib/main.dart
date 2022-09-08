@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_better_muslim/bloc/bloc_exports.dart';
+import 'package:flutter_better_muslim/screens/tabs_screen.dart';
 import 'package:flutter_better_muslim/service/app_route.dart';
 import 'package:flutter_better_muslim/service/app_theme.dart';
 import 'package:path_provider/path_provider.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
             theme: state.switchVal
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
                 : AppThemes.appThemeData[AppTheme.lightTheme],
-            home: const TasksScreen(),
+            home: const TabsScreen(),
             onGenerateRoute: appRouter.onGenerateRoute,
           );
         },
