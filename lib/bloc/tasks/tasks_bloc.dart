@@ -7,6 +7,7 @@ import 'package:flutter_better_muslim/bloc/bloc_exports.dart';
 import '../../models/task.dart';
 
 part 'tasks_event.dart';
+
 part 'tasks_state.dart';
 
 // HydratedBloc local db storage
@@ -21,20 +22,45 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
     final state = this.state;
     emit(TasksState(
-        allTasks: List.from(state.allTasks)..add(event.task),
+        pendingTasks: List.from(state.pendingTasks)..add(event.task),
+        completedTasks: state.completedTasks,
+        favTasks: state.favTasks,
         removedTasks: state.removedTasks));
   }
 
   void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
-    final int index = state.allTasks.indexOf(task);
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
 
-    List<Task> allTasks = List.from(state.allTasks)..remove(task);
     task.isDone == false
-        ? allTasks.insert(index, task.copyWith(isDone: true))
-        : allTasks.insert(index, task.copyWith(isDone: false));
-    emit(TasksState(allTasks: allTasks, removedTasks: state.removedTasks));
+        ? {
+            //action from isDone false to true
+            pendingTasks = List.from(pendingTasks)..remove(task),
+            completedTasks = List.from(completedTasks)
+              ..insert(0, task.copyWith(isDone: true))
+          }
+        : {
+            //action from isDone true to false
+            completedTasks = List.from(completedTasks)..remove(task),
+            pendingTasks = List.from(pendingTasks)
+              ..insert(0, task.copyWith(isDone: false)),
+          };
+
+    emit(TasksState(
+        pendingTasks: pendingTasks,
+        completedTasks: completedTasks,
+        favTasks: state.favTasks,
+        removedTasks: state.removedTasks));
+
+    //old logic
+    // final int index = state.pendingTasks.indexOf(task);
+    // List<Task> allTasks = List.from(state.pendingTasks)..remove(task);
+    // task.isDone == false
+    //     ? allTasks.insert(index, task.copyWith(isDone: true))
+    //     : allTasks.insert(index, task.copyWith(isDone: false));
+    // emit(TasksState(pendingTasks: allTasks, removedTasks: state.removedTasks));
   }
 
   FutureOr<void> _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
@@ -42,15 +68,23 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     List<Task> removeTaskFromRemovedList = List.from(state.removedTasks)
       ..remove(event.task);
     emit(TasksState(
-        allTasks: state.allTasks, removedTasks: removeTaskFromRemovedList));
+        pendingTasks: state.pendingTasks,
+        completedTasks: state.completedTasks,
+        favTasks: state.favTasks,
+        removedTasks: removeTaskFromRemovedList));
   }
 
   FutureOr<void> _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
     final state = this.state;
-    List<Task> allTasks = List.from(state.allTasks)..remove(event.task);
+    List<Task> pendingTasks = List.from(state.pendingTasks)..remove(event.task);
+    List<Task> completedTasks = List.from(state.completedTasks)
+      ..remove(event.task);
+    List<Task> favTasks = List.from(state.favTasks)..remove(event.task);
 
     emit(TasksState(
-        allTasks: allTasks,
+        pendingTasks: pendingTasks,
+        completedTasks: completedTasks,
+        favTasks: favTasks,
         removedTasks: List.from(state.removedTasks)
           ..add(event.task.copyWith(isDeleted: true))));
   }

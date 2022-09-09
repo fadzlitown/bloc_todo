@@ -5,7 +5,7 @@ import 'package:flutter_better_muslim/service/app_route.dart';
 import 'package:flutter_better_muslim/service/app_theme.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'screens/tasks_screen.dart';
+import 'screens/pending_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             theme: state.switchVal
                 ? AppThemes.appThemeData[AppTheme.darkTheme]
                 : AppThemes.appThemeData[AppTheme.lightTheme],
-            home: const TabsScreen(),
+            home: TabsScreen(),
             onGenerateRoute: appRouter.onGenerateRoute,
           );
         },

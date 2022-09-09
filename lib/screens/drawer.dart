@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_better_muslim/screens/RecycleBin.dart';
 import 'package:flutter_better_muslim/screens/tabs_screen.dart';
-import 'package:flutter_better_muslim/screens/tasks_screen.dart';
+import 'package:flutter_better_muslim/screens/pending_screen.dart';
 
 import '../bloc/bloc_exports.dart';
 import '../bloc/tasks/tasks_bloc.dart';
@@ -37,7 +37,8 @@ class _MyDrawerState extends State<MyDrawer> {
               child: ListTile(
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),
-                  trailing: Text('${state.allTasks.length}')),
+                  trailing: Text(
+                      '${state.pendingTasks.length} P | ${state.completedTasks.length} C')),
             );
           },
         ),
