@@ -21,6 +21,7 @@ class TaskTileItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         title: Text(task.title,
+            overflow: TextOverflow.ellipsis, //avoid multiline title
             style: TextStyle(
                 decoration: task.isDone!
                     ? TextDecoration.lineThrough

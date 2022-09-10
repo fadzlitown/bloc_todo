@@ -28,6 +28,8 @@ class _TabsScreenState extends State<TabsScreen> {
 
   void _addTask(BuildContext context) {
     showModalBottomSheet(
+        isScrollControlled:
+            true, //todo note: to make all widgets visible when phone's keypad show up!
         context: context,
         builder: (context) => SingleChildScrollView(
             child: Container(

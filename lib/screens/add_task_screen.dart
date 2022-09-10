@@ -11,6 +11,7 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleC = TextEditingController();
+    TextEditingController descC = TextEditingController();
 
     return Container(
       padding: const EdgeInsets.all(15),
@@ -20,13 +21,20 @@ class AddTaskScreen extends StatelessWidget {
             'Add Task Here',
             style: TextStyle(fontSize: 24),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           TextField(
             autofocus: true,
             controller: titleC,
             decoration: const InputDecoration(
                 label: Text('Title'), border: OutlineInputBorder()),
           ),
+          TextField(
+              autofocus: true,
+              controller: descC,
+              minLines: 3,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                  label: Text('Desc'), border: OutlineInputBorder())),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -38,6 +46,7 @@ class AddTaskScreen extends StatelessWidget {
                   onPressed: () {
                     var task = Task(
                         title: titleC.text,
+                        desc: descC.text,
                         id: UniqueKey()
                             .hashCode
                             .toString()); //or DateTime.now().millisecondsSinceEpoch todo done improvement
