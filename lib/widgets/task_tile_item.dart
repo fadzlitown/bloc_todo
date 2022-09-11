@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
+import '../screens/edit_task_screen.dart';
 
 class TaskTileItem extends StatelessWidget {
   final VoidCallback likeCallback;
@@ -19,6 +20,18 @@ class TaskTileItem extends StatelessWidget {
     context
         .read<TasksBloc>()
         .add(task.isDeleted! ? DeleteTask(task: task) : RemoveTask(task: task));
+  }
+
+  void _editTask(BuildContext context) {
+    showModalBottomSheet(
+        isScrollControlled:
+            true, //todo note: to make all widgets visible when phone's keypad show up!
+        context: context,
+        builder: (context) => SingleChildScrollView(
+            child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: EditTaskScreen(oldTask: task))));
   }
 
   @override
@@ -65,6 +78,10 @@ class TaskTileItem extends StatelessWidget {
                   cancelOrDeleteCallback: () =>
                       _removeOrDeleteTask(context, task),
                   likeOrDislikeCallback: likeCallback,
+                  editTaskCallback: () {
+                    Navigator.of(context).pop();
+                    _editTask(context);
+                  },
                   task: task)
             ],
           )

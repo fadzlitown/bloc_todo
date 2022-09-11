@@ -5,6 +5,7 @@ import '../models/task.dart';
 class PopupMenu extends StatelessWidget {
   final VoidCallback cancelOrDeleteCallback;
   final VoidCallback likeOrDislikeCallback;
+  final VoidCallback editTaskCallback;
 
   final Task task;
 
@@ -12,6 +13,7 @@ class PopupMenu extends StatelessWidget {
       {Key? key,
       required this.task,
       required this.cancelOrDeleteCallback,
+      required this.editTaskCallback,
       required this.likeOrDislikeCallback})
       : super(key: key);
 
@@ -21,9 +23,9 @@ class PopupMenu extends StatelessWidget {
         itemBuilder: task.isDeleted == false
             ? ((context) => [
                   PopupMenuItem(
-                      onTap: () {},
+                      onTap: null,
                       child: TextButton.icon(
-                          onPressed: null,
+                          onPressed: editTaskCallback,
                           icon: const Icon(Icons.edit),
                           label: const Text('Edit'))),
                   PopupMenuItem(

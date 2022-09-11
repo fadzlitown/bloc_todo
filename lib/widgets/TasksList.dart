@@ -24,8 +24,9 @@ class TasksList extends StatelessWidget {
                     value: task.id,
                     headerBuilder: (context, canHeaderOpen) => TaskTileItem(
                         task: task,
-                        likeCallback: () => context.read<TasksBloc>().add(
-                            LikeOrDislikeTask(task: task))), //todo revert back
+                        likeCallback: () => context
+                            .read<TasksBloc>()
+                            .add(LikeOrDislikeTask(task: task))),
                     body: ListTile(
                       title: SelectableText.rich(TextSpan(children: [
                         const TextSpan(
