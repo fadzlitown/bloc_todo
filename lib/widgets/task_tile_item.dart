@@ -6,12 +6,14 @@ import '../bloc/bloc_exports.dart';
 import '../models/task.dart';
 
 class TaskTileItem extends StatelessWidget {
-  const TaskTileItem({
+  final VoidCallback likeCallback;
+
+  TaskTileItem({
     Key? key,
     required this.task,
+    required this.likeCallback,
   }) : super(key: key);
-
-  final Task task;
+  Task task;
 
   void _removeOrDeleteTask(BuildContext context, Task task) {
     context
@@ -28,7 +30,9 @@ class TaskTileItem extends StatelessWidget {
         children: [
           Expanded(
             child: Row(children: [
-              const Icon(Icons.star_outline),
+              task.isFav == false
+                  ? const Icon(Icons.star_outline)
+                  : const Icon(Icons.star),
               const SizedBox(width: 20), //extra space
               Expanded(
                 child: Column(
@@ -41,9 +45,8 @@ class TaskTileItem extends StatelessWidget {
                             decoration: task.isDone!
                                 ? TextDecoration.lineThrough
                                 : TextDecoration.none)),
-                    Text(DateFormat()
-                        .add_yMEd()
-                        .format(DateTime.now())) //DateTime.now().toString()
+                    Text(DateFormat().add_yMEd().add_Hm().format(
+                        DateTime.parse(task.date))) //DateTime.now().toString()
                   ],
                 ),
               )
@@ -61,6 +64,7 @@ class TaskTileItem extends StatelessWidget {
               PopupMenu(
                   cancelOrDeleteCallback: () =>
                       _removeOrDeleteTask(context, task),
+                  likeOrDislikeCallback: likeCallback,
                   task: task)
             ],
           )

@@ -15,6 +15,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(const TasksState()) {
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
+    on<LikeOrDislikeTask>(_onLikeOrDislikeTask);
     on<DeleteTask>(_onDeleteTask);
     on<RemoveTask>(_onRemoveTask);
   }
@@ -61,6 +62,48 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     //     ? allTasks.insert(index, task.copyWith(isDone: true))
     //     : allTasks.insert(index, task.copyWith(isDone: false));
     // emit(TasksState(pendingTasks: allTasks, removedTasks: state.removedTasks));
+  }
+
+  void _onLikeOrDislikeTask(LikeOrDislikeTask event, Emitter<TasksState> emit) {
+    final state = this.state;
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favouriteTasks = state.favTasks;
+    if (event.task.isDone == false) {
+      if (event.task.isFav == false) {
+        var taskIndex = pendingTasks.indexOf(event.task);
+        pendingTasks = List.from(pendingTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFav: true));
+        favouriteTasks.add(event.task.copyWith(isFav: true));
+      } else {
+        var taskIndex = pendingTasks.indexOf(event.task);
+        pendingTasks = List.from(pendingTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFav: false));
+        favouriteTasks.remove(event.task);
+      }
+    } else {
+      if (event.task.isFav == false) {
+        var taskIndex = completedTasks.indexOf(event.task);
+        completedTasks = List.from(completedTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFav: true));
+        favouriteTasks.insert(0, event.task.copyWith(isFav: true));
+      } else {
+        var taskIndex = completedTasks.indexOf(event.task);
+        completedTasks = List.from(completedTasks)
+          ..remove(event.task)
+          ..insert(taskIndex, event.task.copyWith(isFav: false));
+        favouriteTasks.remove(event.task);
+      }
+    }
+    emit(TasksState(
+      pendingTasks: pendingTasks,
+      completedTasks: completedTasks,
+      favTasks: favouriteTasks,
+      removedTasks: state.removedTasks,
+    ));
   }
 
   FutureOr<void> _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {

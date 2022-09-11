@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_better_muslim/bloc/bloc_exports.dart';
 import 'package:flutter_better_muslim/widgets/task_tile_item.dart';
 
 import '../models/task.dart';
@@ -21,8 +22,10 @@ class TasksList extends StatelessWidget {
             children: list
                 .map((task) => ExpansionPanelRadio(
                     value: task.id,
-                    headerBuilder: (context, canHeaderOpen) =>
-                        TaskTileItem(task: task),
+                    headerBuilder: (context, canHeaderOpen) => TaskTileItem(
+                        task: task,
+                        likeCallback: () => context.read<TasksBloc>().add(
+                            LikeOrDislikeTask(task: task))), //todo revert back
                     body: ListTile(
                       title: SelectableText.rich(TextSpan(children: [
                         const TextSpan(

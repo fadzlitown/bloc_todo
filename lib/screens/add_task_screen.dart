@@ -47,6 +47,7 @@ class AddTaskScreen extends StatelessWidget {
                     var task = Task(
                         title: titleC.text,
                         desc: descC.text,
+                        date: DateTime.now().toString(),
                         id: UniqueKey()
                             .hashCode
                             .toString()); //or DateTime.now().millisecondsSinceEpoch todo done improvement
