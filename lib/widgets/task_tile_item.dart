@@ -8,11 +8,13 @@ import '../screens/edit_task_screen.dart';
 
 class TaskTileItem extends StatelessWidget {
   final VoidCallback likeCallback;
+  final VoidCallback restoreCallback;
 
   TaskTileItem({
     Key? key,
     required this.task,
     required this.likeCallback,
+    required this.restoreCallback,
   }) : super(key: key);
   Task task;
 
@@ -82,6 +84,7 @@ class TaskTileItem extends StatelessWidget {
                     Navigator.of(context).pop();
                     _editTask(context);
                   },
+                  restoreTaskCallback: restoreCallback,
                   task: task)
             ],
           )

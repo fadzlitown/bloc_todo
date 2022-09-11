@@ -24,6 +24,9 @@ class TasksList extends StatelessWidget {
                     value: task.id,
                     headerBuilder: (context, canHeaderOpen) => TaskTileItem(
                         task: task,
+                        restoreCallback: () => context
+                            .read<TasksBloc>()
+                            .add(RestoreTask(task: task)),
                         likeCallback: () => context
                             .read<TasksBloc>()
                             .add(LikeOrDislikeTask(task: task))),
