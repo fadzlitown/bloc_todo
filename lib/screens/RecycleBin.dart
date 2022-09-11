@@ -19,7 +19,28 @@ class RecyclerBin extends StatelessWidget {
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.
             title: const Text('Recycler Bin'),
-            actions: [],
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem(
+                    child: TextButton.icon(
+                        onPressed: null,
+                        icon: const Icon(Icons.delete_forever),
+                        label: const Text('Delete Test tasks')),
+                    onTap: () =>
+                        context.read<TasksBloc>().add(DeleteAllTasks()),
+                  ),
+                  PopupMenuItem(
+                    child: TextButton.icon(
+                        onPressed: null,
+                        icon: const Icon(Icons.delete_forever),
+                        label: const Text('Delete all tasks')),
+                    onTap: () =>
+                        context.read<TasksBloc>().add(DeleteAllTasks()),
+                  ),
+                ],
+              )
+            ],
           ),
 
           body: Column(
